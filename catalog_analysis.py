@@ -103,3 +103,52 @@ def catalog_age_stats(
     age = [current_year - item["year"] for item in movies]
     average = ceil(sum(age) / len(age))
     return max(age), min(age), average
+
+def rating_tier(rating: float) -> str:
+    if rating >= 9:
+        return "шедевр"
+    elif rating >= 7:
+        return "хорошо"
+    elif rating >= 5:
+        return "средне"
+    else:
+        return "слабо" if rating < 5 else "ошибка"
+
+def decade_label(year: int) -> str:
+    match year:
+        case _ if year > 2020:
+            return "новые"
+        case _ if 2015 <= year <= 2020:
+            return "недавние"
+        case _:
+            return "старые"
+
+def count_long_movies(
+    movies: List[Dict[str, int | str | List[str]]],
+    threshold: int = 120
+):
+    count = 0
+    for movie in movies:
+        if movie["duration_min"] > threshold:
+            count += 1
+    return count
+
+def task3() -> None:
+    print("Фильмы, которые не относятся к жанру comedy:")
+    for movie in movies:
+        if "comedy" in movie["genres"]:
+            continue
+        print(f"  - {movie['title']}")
+    
+    index = 0
+    while index < len(movies):
+        movie = movies[index]
+        if movie["rating"] > 9.0:
+            print(f"\nШедевр: {movie['title']}")
+            break
+        index += 1
+    else:
+        print("\nШедевров не найдено")   
+    
+    long_movies_count = count_long_movies(movies)
+    print(f"\nКоличество фильмов длиннее 120 минут: {long_movies_count}")
