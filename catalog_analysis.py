@@ -1,3 +1,6 @@
+from math import ceil
+from typing import Dict, List
+
 movies = [
     {
         "title": "The Dune Chronicles",
@@ -80,3 +83,23 @@ movies = [
         "actors": ["P. Diaz", "T. Chalamet"]
     },
 ]
+
+
+def average_rating(
+    movies: List[Dict[str, int | str | List[str]]]
+) -> float:
+    ratings = [item["rating"] for item in movies]
+    result = sum(ratings) / len(ratings) if len(ratings) > 0 else 0
+    return round(result, 1)
+
+def duration_in_hours(minutes: int) -> str:
+    return f'{minutes // 60}ч {minutes % 60}м'
+
+def catalog_age_stats(
+    movies: List[Dict[str, int | str | List[str]]],
+    current_year: int = 2026
+) -> tuple[int, int, int]:
+    
+    age = [current_year - item["year"] for item in movies]
+    average = ceil(sum(age) / len(age))
+    return max(age), min(age), average
