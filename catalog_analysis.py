@@ -1,5 +1,5 @@
 from math import ceil
-from typing import Dict, List
+from typing import Dict, Iterator, List
 
 movies = [
     {
@@ -230,3 +230,19 @@ def genres_only_in_one(
     movies_b: List[Dict[str, int | str | List[str]]]
 ) -> set[str]:
     return all_genres(movies_a) - all_genres(movies_b)
+
+def iter_high_rated(
+    movies: List[Dict[str, int | str | List[str]]],
+    min_rating: float = 8.0
+) -> Iterator[dict]:
+    for movie in movies:
+        if movie['rating'] >= min_rating:
+            yield movie
+
+def task8() -> None:
+    for movie in iter_high_rated(movies, 8.5):
+        print(format_report_line(movie))
+    longitude = sum( \
+        movie['duration_min'] \
+        for movie in movies if movie['rating'] > 7)
+    print(longitude)
