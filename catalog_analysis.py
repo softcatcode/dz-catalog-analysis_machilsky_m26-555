@@ -184,3 +184,29 @@ def top_n_by_rating(
     sorted_movies = sorted_movies[ : min(len(sorted_movies), n)]
     answer = [(elem['title'], elem['rating']) for elem in sorted_movies]
     return answer
+
+def count_by_genre(
+    movies: List[Dict[str, int | str | List[str]]]
+) -> Dict[str, int]:
+    genre_counts = {}
+    for movie in movies:
+        for genre in movie['genres']:
+            genre_counts[genre] = genre_counts.get(genre, 0) + 1
+    return genre_counts
+
+def actor_filmography(
+    movies: List[Dict[str, int | str | List[str]]]
+) -> Dict[str, List[str]]:
+    actor_films = {}
+    for movie in movies:
+        for actor in movie['actors']:
+            actor_films[actor] = actor_films.get(actor, []) + [movie['title']]
+    return actor_films
+
+def task6() -> None:
+    avg = average_rating(movies)
+    answer = { \
+        elem['title']: elem['rating'] \
+        for elem in movies \
+        if elem['rating'] > avg}
+    print(answer)
