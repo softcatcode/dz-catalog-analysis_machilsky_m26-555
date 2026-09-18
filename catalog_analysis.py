@@ -169,3 +169,18 @@ def format_report_line(
     s = f'"{movie['title']}" ({movie['year']}) — {movie['rating']}/10'
     s += f', {duration}, жанры: {genre_names}'
     return s
+
+def titles_sorted_by_rating(
+    movies: List[Dict[str, int | str | List[str]]]
+) -> List[str]:
+    sorted_movies = sorted(movies, key=lambda x: x['rating'], reverse=True)
+    return [elem['title'] for elem in sorted_movies]
+
+def top_n_by_rating(
+    movies: List[Dict[str, int | str | List[str]]],
+    n: int = 3
+) -> List[tuple[str, float]]:
+    sorted_movies = sorted(movies, key=lambda x: x['rating'], reverse=True)
+    sorted_movies = sorted_movies[ : min(len(sorted_movies), n)]
+    answer = [(elem['title'], elem['rating']) for elem in sorted_movies]
+    return answer
