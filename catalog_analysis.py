@@ -152,3 +152,20 @@ def task3() -> None:
     
     long_movies_count = count_long_movies(movies)
     print(f"\nКоличество фильмов длиннее 120 минут: {long_movies_count}")
+
+def normalize_title(title: str) -> str:
+    words = title.split()
+    words = [w[0].upper() + w[1:] for w in words]
+    return ' '.join(words)
+
+def make_slug(title: str) -> str:
+    return title.lower().replace(' ', '-')
+
+def format_report_line(
+    movie: Dict[str, int | str | List[str]]
+) -> str:
+    genre_names = ', '.join(sorted([w for w in movie['genres']]))
+    duration = duration_in_hours(movie['duration_min'])
+    s = f'"{movie['title']}" ({movie['year']}) — {movie['rating']}/10'
+    s += f', {duration}, жанры: {genre_names}'
+    return s
