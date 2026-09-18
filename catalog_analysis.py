@@ -210,3 +210,23 @@ def task6() -> None:
         for elem in movies \
         if elem['rating'] > avg}
     print(answer)
+
+def all_genres(
+    movies: List[Dict[str, int | str | List[str]]]
+) -> set[str]:
+    answer = set()
+    for movie in movies:
+        answer.update(movie['genres'])
+    return answer
+
+def common_actors(
+    movie1: Dict[str, int | str | List[str]],
+    movie2: Dict[str, int | str | List[str]]
+) -> set[str]:
+    return set(movie1['actors']) & set(movie2['actors'])
+
+def genres_only_in_one(
+    movies_a: List[Dict[str, int | str | List[str]]],
+    movies_b: List[Dict[str, int | str | List[str]]]
+) -> set[str]:
+    return all_genres(movies_a) - all_genres(movies_b)
