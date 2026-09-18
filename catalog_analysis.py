@@ -246,3 +246,42 @@ def task8() -> None:
         movie['duration_min'] \
         for movie in movies if movie['rating'] > 7)
     print(longitude)
+
+def build_report(
+    movies: List[Dict[str, int | str | List[str]]]
+) -> None:
+    print('ОТЧЁТ ПО КАТАЛОГУ')
+    print('Средний рейтинг:', average_rating(movies))
+    print('Средний возраст фильмов:', catalog_age_stats(movies)[2], 'лет')
+    
+    print('\nТоп-3 фильма:')
+    top_movies = top_n_by_rating(movies, 3)
+    for title, _ in top_movies:
+        movie_obj = next(m for m in movies if m['title'] == title)
+        print(f'  {format_report_line(movie_obj)}')
+    
+    print('\nФильмов по жанрам:')
+    genres = sorted(
+        count_by_genre(movies).items(),
+        key = lambda x: x[1],
+        reverse=True
+    )
+    for elem in genres:
+        print(f'  {elem[0]} — {elem[1]}')
+    
+    print('\nВсе жанры каталога:', end=' ')
+    print(', '.join(sorted(all_genres(movies))), end='\n\n')
+    
+    print('Задание 3')
+    task3()
+    print()
+    
+    print('Задание 6')
+    task6()
+    print()
+    
+    print('Задание 8')
+    task8()
+    print()
+
+build_report(movies)
